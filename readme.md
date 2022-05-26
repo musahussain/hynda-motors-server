@@ -10,7 +10,7 @@
 * See details about bike parts
 * You can see your orders in My Orders page
 * You can add a review
-* You can see your information on My Profile page
+* You can cancel your order
 
 ### Technology Used
 
