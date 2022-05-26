@@ -91,8 +91,8 @@ run().catch(console.dir);
 
 app.get('/', (req, res) => {
   res.send('Server Running');
-})
+});
 
 app.listen(port, () => {
   console.log(`Running Hynda Motors Server on port ${port}`);
-})
+});
