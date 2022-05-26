@@ -24,6 +24,7 @@ async function run() {
     try{
         await client.connect();
         const productCollection = client.db("hyndaMotors").collection('products');
+        const orderCollection = client.db("hyndaMotors").collection("orders");
 
         // get products 
         app.get('/product', async(req, res) => {
@@ -40,6 +41,14 @@ async function run() {
           const product = await productCollection.findOne(query);
           res.send(product);
         });
+
+        // add orders 
+        app.post('/order', async (req, res) => {
+          const newOrder = req.body;
+          const result = await orderCollection.insertOne(newOrder);
+          res.send(result);
+        });
+  
     }
     finally{
         console.log("Database Connected");
