@@ -25,6 +25,7 @@ async function run() {
         await client.connect();
         const productCollection = client.db("hyndaMotors").collection('products');
         const orderCollection = client.db("hyndaMotors").collection("orders");
+        const reviewCollection = client.db("hyndaMotors").collection("reviews");
 
         // get products 
         app.get('/product', async(req, res) => {
@@ -48,6 +49,37 @@ async function run() {
           const result = await orderCollection.insertOne(newOrder);
           res.send(result);
         });
+
+        // get a user orders 
+        app.get('/order/:email', async (req, res) => {
+          const email = req.params.email;
+          const query = {email: email};
+          const cursor = orderCollection.find(query);
+          const orders = await cursor.toArray();
+          res.send(orders);
+        });
+
+        // delete order of a user 
+        app.delete('/order/:id', async(req, res) =>{
+          const id = req.params.id;
+          const query = {_id: ObjectId(id)};
+          const result = await orderCollection.deleteOne(query);
+          res.send(result);
+      });
+
+      // add a review from a user 
+      app.post('/addreview', async (req, res) => {
+        const newReview = req.body;
+        const result = await reviewCollection.insertOne(newReview);
+        res.send(result);
+      });
+
+      app.get('/review', async(req, res) => {
+        const query = {};
+        const cursor = reviewCollection.find(query);
+        const reviews = await cursor.toArray();
+        res.send(reviews);
+    });
   
     }
     finally{
